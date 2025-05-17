@@ -1,0 +1,78 @@
+# This is a sample Docker Compose file for a MERN stack application.
+# It defines services for the frontend, backend, and MongoDB database.
+# services:
+#   mongo:
+#     image: mongo:latest
+#     container_name: mongo
+#     ports:
+#       - "27017:27017"
+#     volumes:
+#       - mongo_data:/data/db
+#     networks:
+#       - mern
+
+#   frontend:
+#     build:
+#       context: ./frontend
+#       dockerfile: Dockerfile
+#     container_name: frontend
+#     ports:
+#       - "3000:3000"
+#     networks:
+#       - mern
+#   backend:
+#     build:
+#       context: ./backend
+#       dockerfile: Dockerfile
+#     container_name: backend
+#     ports:
+#       - "5000:5000"
+#     environment:
+#       - MONGO_URI=mongodb://mongo:27017/mern_db
+#     depends_on:
+#       - mongo
+#     networks:
+#       - mern
+
+# networks:
+#   mern:
+#     driver: bridge
+# volumes:
+#   mongo_data:
+#     driver: local
+
+
+# This is the code that I have written for the docker-compose.yaml file.
+
+services:
+  frontend:
+    build: frontend
+    ports: 
+      - "5173:5173"
+    networks:
+      - mern
+
+  backend:
+    build: backend
+    ports:
+      - "5050:5050"
+    networks:
+      - mern
+    depends_on:
+      - mongodb
+  mongodb:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    networks:
+      - mern
+    volumes:
+      - ~/data/db:/opt/data
+
+networks:
+  mern:
+    driver: bridge
+
+volumes:
+  mongo-data:
+    driver: local
